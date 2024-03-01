@@ -60,6 +60,8 @@ int main () {
         string input;
         getline(cin, input);
 
+
+
         if (input == "exit") {  // print exit message and break out of infinite loop
             cout << RED << "Now exiting shell..." << endl << "Goodbye" << NC << endl;
             break;
@@ -67,9 +69,8 @@ int main () {
 
         // get tokenized commands from user input
         Tokenizer tknr(input);
-        if (tknr.hasError()) {  // continue to next prompt if input had an error
+        if (tknr.hasError())  // continue to next prompt if input had an error
             continue;
-        }
 
         // implement cd with chdir()
         // if dir (cd <dir>) is "-", then  go to the previous working directory
@@ -100,15 +101,12 @@ int main () {
             // // prints to cerr to avoid influencing autograder
             // Uncomment when you understand how tokenizer
             for (auto cmd : tknr.commands) {
-                for (auto str : cmd->args) {
+                for (auto str : cmd->args)
                     cerr << "|" << str << "| ";
-                }
-                if (cmd->hasInput()) {
+                if (cmd->hasInput())
                     cerr << "in< " << cmd->in_file << " ";
-                }
-                if (cmd->hasOutput()) {
+                if (cmd->hasOutput())
                     cerr << "out> " << cmd->out_file << " ";
-                }
                 cerr << endl;
             }
 
@@ -184,9 +182,8 @@ int main () {
                     else
                         waitpid(pid, &status, 0);
 
-                    if (status > 1) {  // exit if child didn't exec properly
+                    if (status > 1)  // exit if child didn't exec properly
                         exit(status);
-                    }
                 }
                 close(fd[0]);
                 close(fd[1]);
