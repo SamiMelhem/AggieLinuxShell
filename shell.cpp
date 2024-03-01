@@ -125,10 +125,8 @@ int main () {
 
                 // create the pipe
                 pipe(fd);
-                // create the child to run the first command
-                char** args;
-                int arg_size;
 
+                // create the child to run the first command
                 // fork to create child
                 pid_t pid = fork();
                 if (pid < 0) {  // error check
@@ -147,8 +145,8 @@ int main () {
 
                     // implement multiple arguments - iterate over args of current command to make
                     //      char* array
-                    arg_size = tknr.commands[i]->args.size();
-                    args = new char*[arg_size+1];
+                    int arg_size = tknr.commands[i]->args.size();
+                    char** args = new char*[arg_size+1];
 
                     for (int inner = 0; inner < arg_size; ++inner){
                         args[inner] = new char[tknr.commands[i]->args[inner].size() + 1];
@@ -167,7 +165,8 @@ int main () {
                         dup2(file_descriptor, 0);
                     }
 
-                    if (execvp(args[0], args) < 0) {  // error check
+                    // error check
+                    if (execvp(args[0], args) < 0) {
                         perror("execvp");
                         exit(2);
                     }
